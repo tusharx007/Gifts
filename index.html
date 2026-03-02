@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sunanda Birthday</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+body{
+margin:0;
+font-family:'Comic Neue',cursive;
+background:linear-gradient(135deg,#ff9a9e,#fecfef);
+color:white;
+/* Changed from hidden to auto so she can scroll if the screen is small */
+overflow-x:hidden;
+overflow-y:auto;
+min-height: 100vh;
+}
+
+#lockScreen{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:#ff69b4;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:100;
+text-align:center;
+}
+
+#lockScreen h1{
+font-family:'Pacifico',cursive;
+font-size:36px;
+}
+
+input{
+padding:12px;
+border-radius:25px;
+border:none;
+font-size:18px;
+margin-top:15px;
+text-align:center;
+color: #333;
+}
+
+button{
+margin-top:15px;
+padding:10px 25px;
+border-radius:25px;
+border:none;
+background:white;
+color:#ff1493;
+font-weight:bold;
+font-size:16px;
+cursor:pointer;
+transition: 0.3s;
+}
+
+button:active {
+transform: scale(0.95);
+}
+
+#timerOverlay{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(0,0,0,0.8);
+display:none;
+justify-content:center;
+align-items:center;
+font-size:80px;
+font-weight:bold;
+z-index:110; /* Higher than lockscreen */
+}
+
+.page{
+display:none;
+padding:60px 20px;
+box-sizing:border-box;
+text-align:center;
+min-height: 100vh;
+}
+
+.page.active{
+display:block;
+}
+
+.page h1{
+font-family:'Pacifico',cursive;
+font-size:34px;
+}
+
+.page p{
+margin-top:20px;
+font-size:20px;
+line-height:1.6;
+}
+
+.nextBtn{
+margin-top: 30px;
+display: inline-block;
+}
+</style>
+</head>
+
+<body>
+
+<div id="lockScreen">
+<h1>Only For Sunanda 💖</h1>
+<input type="password" id="password" placeholder="Enter Password">
+<button id="unlockBtn">Unlock</button>
+</div>
+
+<div id="timerOverlay"></div>
+
+<div id="pages">
+<div class="page" id="page0">
+<h1>🌷 Sunanda 🌷</h1>
+<p>Happy Birthday to the cutest human ever 💕</p>
+<button class="nextBtn">Next ➡</button>
+</div>
+
+<div class="page" id="page1">
+<h1>My Cute Angry Girl 😠</h1>
+<p>You get angry quickly… but in anger you look even more beautiful 😍</p>
+<button class="nextBtn">Next ➡</button>
+</div>
+
+<div class="page" id="page2">
+<h1>My Peace 🌙</h1>
+<p>I’m happiest when I fall asleep watching you.</p>
+<button class="nextBtn">Next ➡</button>
+</div>
+
+<div class="page" id="page3">
+<h1>Forever ❤️</h1>
+<p>I will always choose you.</p>
+</div>
+</div>
+
+<script>
+let current = 0;
+const pages = document.querySelectorAll(".page");
+const total = pages.length;
+
+// Handle Click
+document.getElementById("unlockBtn").addEventListener("click", unlock);
+
+// Handle "Enter" key press
+document.getElementById("password").addEventListener("keypress", function(e) {
+if (e.key === "Enter") unlock();
+});
+
+function unlock(){
+let pass = document.getElementById("password").value;
+
+// Made it case-insensitive so she doesn't get frustrated
+if(pass.toLowerCase() === "tushar77"){
+document.getElementById("lockScreen").style.display="none";
+startCountdown();
+}else{
+alert("Wrong Password! Hint: Your name starts with 'S' but the password is my name... 😉");
+}
+}
+
+function startCountdown(){
+let overlay = document.getElementById("timerOverlay");
+overlay.style.display="flex";
+let time = 3; // Reduced to 3 seconds (5 is a long wait!)
+overlay.innerText = time;
+
+let counter = setInterval(function(){
+time--;
+if(time > 0) {
+overlay.innerText = time;
+} else {
+clearInterval(counter);
+overlay.style.display="none";
+pages[0].classList.add("active");
+}
+}, 1000);
+}
+
+document.querySelectorAll(".nextBtn").forEach(btn => {
+btn.addEventListener("click", nextPage);
+});
+
+function nextPage(){
+if(current < total - 1){
+pages[current].classList.remove("active");
+current++;
+pages[current].classList.add("active");
+window.scrollTo(0,0); // Scroll to top for the next page
+}
+}
+</script>
+
+</body>
+</html>
